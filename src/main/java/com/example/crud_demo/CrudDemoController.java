@@ -1,8 +1,7 @@
 package com.example.crud_demo;
 
 import com.example.crud_demo.member.dto.MemberJoinDTO;
-import com.example.crud_demo.member.entity.Member;
-import com.example.crud_demo.member.entity.MemberRepository;
+import com.example.crud_demo.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,10 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class CrudDemoController {
 
     @Autowired
-    private MemberRepository memberRepository;
+    private MemberService memberService;
 
-    public CrudDemoController(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
+    @GetMapping("/")
+    public String home() {
+        return "index";
     }
 
     @GetMapping("/member/memberJoin")
@@ -33,17 +33,11 @@ public class CrudDemoController {
 
     @PostMapping("/member/memberJoinOk")
     @ResponseBody
-    public MemberJoinDTO insert(MemberJoinDTO memberJoinDTO) {
+    public String insert(MemberJoinDTO memberJoinDTO) {
+        //MemberService > Insert() 메서드 호출
+        Integer idx = memberService.insert(memberJoinDTO);
 
-        //Member 타입의 객체 생성
-        Member member = new Member();
-
-        //Setter
-        member.setId(memberJoinDTO.getId());
-        member.setPw(memberJoinDTO.getPw());
-
-        //DB:save
-        memberRepository.save(member);
-        return memberJoinDTO;
+        //Return
+        return String.format("Member idx => %s", idx);
     }
 }
