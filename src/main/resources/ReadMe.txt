@@ -32,3 +32,5 @@
     application.properties
         여기에 데이터베이스 관련된 설정을 작성해놓으면 그대로 반영(리스타트)
     build.gradle
+
+흠...
