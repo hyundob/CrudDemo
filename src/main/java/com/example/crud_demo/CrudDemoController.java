@@ -4,6 +4,7 @@ import com.example.crud_demo.member.dto.MemberJoinDTO;
 import com.example.crud_demo.member.entity.Member;
 import com.example.crud_demo.member.entity.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class CrudDemoController {
 
-    private final MemberRepository memberRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
     public CrudDemoController(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
@@ -26,9 +28,7 @@ public class CrudDemoController {
     @GetMapping("/test")
     @ResponseBody
     public String test(HttpServletRequest req) {
-        String userId = req.getParameter("userId");
-
-        return userId;
+        return req.getParameter("userId");
     }
 
     @PostMapping("/member/memberJoinOk")
