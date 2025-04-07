@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 public class Member {
     /**
-     * Member.java의 역할
+     * Member.java 의 역할
      * - 데이터 베이스 연동을 할 때 아주 중요한 역할을 담당하는 파일
      * - DB 연동을 코드 레벨에서 처리하도록 해주는 파일 => JPA + ORM
      * - JPA : Java Persistence API

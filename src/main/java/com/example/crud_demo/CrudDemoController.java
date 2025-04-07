@@ -1,6 +1,8 @@
 package com.example.crud_demo;
 
 import com.example.crud_demo.member.dto.MemberJoinDTO;
+import com.example.crud_demo.member.dto.MemberUpdateDTO;
+import com.example.crud_demo.member.dto.MemberUpdateUiDTO;
 import com.example.crud_demo.member.entity.Member;
 import com.example.crud_demo.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,8 +21,12 @@ import java.util.NoSuchElementException;
 @Controller
 public class CrudDemoController {
 
+    private final MemberService memberService;
+
     @Autowired
-    private MemberService memberService;
+    public CrudDemoController(MemberService memberService) {
+        this.memberService = memberService;
+    }
 
     @GetMapping("/")
     public String home() {
@@ -67,8 +73,8 @@ public class CrudDemoController {
     // Model => 데이터
     // View  => 보여지는 페이지
     // 둘다 컨트롤러에서 뷰로 데이터를 전달
-    // Model과 ModelAndView 둘 다 스프링부트 프레임워크에서 MVC 패턴을 구현하는 데 있어서 중요하게 사용됨
-    // 일단 Model 보다 ModelAndView가 더 확장성을 가지고 있음
+    // Model 과 ModelAndView 둘 다 스프링부트 프레임워크에서 MVC 패턴을 구현하는 데 있어서 중요하게 사용됨
+    // 일단 Model 보다 ModelAndView 가 더 확장성을 가지고 있음
 
     // Model
     // - 뷰에 표시할 데이터를 저장하는 객체
@@ -120,4 +126,65 @@ public class CrudDemoController {
         // Return
         return mav;
     }
+
+    // DB::Update
+    // 유효성 처리 제외 => 라이브러리 사용
+    /*
+    1. DemoController.java
+        @GetMapping("/member/update/{idx}")
+        public ModelAndView updateUi() {}
+
+        @PostMapping("/member/update/{idx}")
+        public ModelAndView update() {}
+    2. MemberService.java
+
+    3. DTO 객체 2개
+        MemberUpdateUiDTO.java
+        MemberUpdateDTO.java
+
+    4. 뷰페이지
+        memberUpdate.html
+        폼태그 사용 시 => th:action, th:object, th:value
+
+     */
+
+    // findById() => 조회 => 검색결과가 없으면 => NoSuchElementException 에러 발생 => try ~ catch
+    // 라이브러리 => ExceptionHandler 사용
+
+    @GetMapping("/member/update/{idx}")
+    public ModelAndView updateUi(@PathVariable("idx") Integer idx) {
+        // mav 객체 생성
+        ModelAndView mav = new ModelAndView();
+        // 예외 처리
+        try {
+            // MemberService > updateUi() 메서드 호출
+            MemberUpdateUiDTO memberUpdateUiDTO = this.memberService.updateUi(idx);
+
+            // 데이터 추가(반환 객체 추가)
+            mav.addObject("memberUpdateUiDTO", memberUpdateUiDTO);
+            mav.setViewName("member/memberUpdate");
+        } catch (NoSuchElementException ex) {
+            mav.setStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+            mav.addObject("msg", "요청한 엔티티 객체 정보가 없습니다.");
+            mav.setViewName("member/error");
+        }
+
+        // Return
+        return mav;
+    }
+
+    @PostMapping("/member/update/{idx}")
+    @ResponseBody
+    public ModelAndView update(MemberUpdateDTO memberUpdateDTO) {
+
+        // MemberService > update() 메서드 호출
+        this.memberService.update(memberUpdateDTO);
+
+        // ModelAndView 객체 생성하고 뷰 지정해서 뷰페이지 이동
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName(String.format("redirect:/member/read/%s", memberUpdateDTO.getIdx()));
+
+        return mav;
+    }
+
 }
