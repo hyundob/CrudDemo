@@ -1,9 +1,11 @@
 package com.example.crud_demo;
 
 import com.example.crud_demo.member.dto.MemberJoinDTO;
+import com.example.crud_demo.member.entity.Member;
 import com.example.crud_demo.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.NoSuchElementException;
 
 @Controller
 public class CrudDemoController {
@@ -95,6 +99,25 @@ public class CrudDemoController {
         mav.addObject("msg2", "두번째");
         mav.setViewName("member/intro");
 
+        return mav;
+    }
+
+    // DB::Read
+    @GetMapping("/member/read/{idx}")
+    public ModelAndView read(@PathVariable("idx") Integer idx) {
+        ModelAndView mav = new ModelAndView();
+        try {
+            // MemberService > read() 메서드 호출
+            Member member = this.memberService.read(idx);
+            //데이터 추가
+            mav.addObject("member", member);
+            mav.setViewName("member/read");
+        } catch (NoSuchElementException ex) {
+            mav.setStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+            mav.addObject("msg", "요청한 엔티티 객체 정보가 없습니다");
+            mav.setViewName("member/error");
+        }
+        // Return
         return mav;
     }
 }

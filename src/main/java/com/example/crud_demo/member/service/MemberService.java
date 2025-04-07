@@ -29,4 +29,10 @@ public class MemberService {
         return member.getIdx();
 
     }
+
+    // DB::Read
+    public Member read(Integer idx) {
+        // 조회 및 Return
+        return this.memberRepository.findById(idx).orElseThrow();
+    }
 }
