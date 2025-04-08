@@ -7,6 +7,7 @@ import com.example.crud_demo.member.entity.Member;
 import com.example.crud_demo.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -211,5 +212,19 @@ public class CrudDemoController {
     @GetMapping("/member/delete-success/{idx}")
     public String deleteSuccess(@PathVariable("idx") int idx) {
         return "member/delete-success";
+    }
+
+    // DB::List
+    @GetMapping("/member/memberList")
+    public String memberList(Model model, @RequestParam(value="page", defaultValue="0") int page) {
+
+        // MemberService > memberList() 메서드 호출 => page 넣으면서 호출
+        Page<Member> paging = this.memberService.memberList(page);
+
+        // Model 에 데이터 추가
+        model.addAttribute("paging", paging);
+
+        // Return
+        return "member/memberList";
     }
 }

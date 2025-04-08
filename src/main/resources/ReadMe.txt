@@ -45,3 +45,11 @@
         /member/memberList -> 이 요청에 대한 처리
         MemberService > memberList() 메서드 호출
         반환값을 모델에 담아 뷰로 전달
+    3단계
+        Service.java
+        memberList() 메서드 작성
+        pageable 사용하여 페이지 설정에 필요한 여러 설정 값을 세팅 -> 몇 페이지? 몇 개?
+        this.memberRepository.findAll(pageable)
+    4단계
+        View
+        뷰페이지 만들어서 전달된 데이터 받아서 반복 출력

@@ -7,6 +7,9 @@ import com.example.crud_demo.member.entity.Member;
 import com.example.crud_demo.member.entity.MemberRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -85,5 +88,14 @@ public class MemberService {
 
             return "/member/delete-success";
         }
+    }
+
+    public Page<Member> memberList(int page) {
+
+        // 페이지어블 변수 및 페이지 설정
+        Pageable pageable = PageRequest.of(page, 5);
+
+        // Return
+        return this.memberRepository.findAll(pageable);
     }
 }
