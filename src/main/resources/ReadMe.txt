@@ -32,3 +32,16 @@
     application.properties
         여기에 데이터베이스 관련된 설정을 작성해놓으면 그대로 반영(리스타트)
     build.gradle
+
+4. 리스트 구현 순서
+    1단계
+        Repository.java
+        findAll() or FindByIdContains() 메서드 작성
+        인자로 Pageable 넣어서 작성
+        반환값은 => page<Member>
+    2단계
+        Controller.java
+        DemoController.java
+        /member/memberList -> 이 요청에 대한 처리
+        MemberService > memberList() 메서드 호출
+        반환값을 모델에 담아 뷰로 전달
