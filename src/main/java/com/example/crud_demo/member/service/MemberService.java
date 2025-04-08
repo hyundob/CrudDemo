@@ -65,4 +65,25 @@ public class MemberService {
         // DB::Save
         this.memberRepository.save(member);
     }
+
+    // DB::Delete
+    public String delete(int idx, int userPw) throws NoSuchElementException {
+
+        // DB::Find
+        Member member = this.memberRepository.findById(idx).orElseThrow();
+
+        //사용자가 입력한 비번과 DB에 입력된 비번과 비교해서 일치하면 삭제
+        if(userPw != member.getPw()) {
+            // System.out.println("비밀번호가 틀립니다.");
+
+            return "/member/delete-fail";
+        } else {
+            // System.out.println("비밀번호가 맞습니다.");
+
+            //삭제
+            this.memberRepository.delete(member);
+
+            return "/member/delete-success";
+        }
+    }
 }

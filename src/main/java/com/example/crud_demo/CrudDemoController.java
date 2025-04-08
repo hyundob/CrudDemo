@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.NoSuchElementException;
@@ -187,4 +184,32 @@ public class CrudDemoController {
         return mav;
     }
 
+    // DB::Delete UI
+    @GetMapping("/member/delete/{idx}")
+    public String deleteUI(Model model, @PathVariable("idx") Integer idx) {
+        // Model 에 데이터 추가
+        model.addAttribute("idx", idx);
+        // Return
+        return "member/delete";
+    }
+
+    // DB:Delete
+    @PostMapping("/member/delete/{idx}")
+    public String delete(@PathVariable("idx") int idx, @RequestParam("pw") int userPw) {
+        // MemberService > delete() 메서드 호출 => DB에서 삭제 처리
+        String res = this.memberService.delete(idx, userPw);
+        // Return
+        return "redirect:"+res+"/"+idx;
+    }
+
+    // DB::Fail and Success
+    @GetMapping("/member/delete-fail/{idx}")
+    public String deleteFail(Model model, @PathVariable("idx") int idx) {
+        model.addAttribute("idx", idx);
+        return "member/delete-fail";
+    }
+    @GetMapping("/member/delete-success/{idx}")
+    public String deleteSuccess(@PathVariable("idx") int idx) {
+        return "member/delete-success";
+    }
 }

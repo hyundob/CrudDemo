@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Member Delete</title>
+</head>
+<body>
+    <h2>Member Delete</h2>
+    <hr>
+        <p>Message: <span th:text="${idx}" style="font-weight: 600"></span>번 레코드에 대한 비밀번호가 틀립니다.</p>
+    <hr>
+    <button th:onclick="@{|location.href='/member/delete/${idx}'| }">다시 비밀번호 입력하기</button>
+</body>
