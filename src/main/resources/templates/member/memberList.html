@@ -3,6 +3,44 @@
 <head>
     <meta charset="utf-8">
     <title>Member List</title>
+    <style>
+        a {
+            text-decoration: none;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            display: inline-block;
+            border: 1px solid #ccc;
+            margin: 0 5px;
+        }
+        .move {
+            display: inline-block;
+            padding: 5px 12px;
+        }
+        .click {
+            display: inline-block;
+            padding: 5px 12px;
+        }
+        li:hover {
+            background-color: yellow;
+            cursor: pointer;
+        }
+        li:first-child, li:last-child {
+            background-color: #f0f0f0;
+        }
+        .disabled {
+            pointer-events: none;
+            opacity: .3;
+        }
+        .active {
+            background-color: pink;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <h2>MemberList</h2>
@@ -39,15 +77,33 @@
             paging.hasNext : 다음 페이지가 있는지 체크
     -->
     <!-- 페이징 처리 끝 -->
-    1. 페이지 번호 반복 : <span th:each="num: ${#numbers.sequence(1, 10)}"><span th:text="${num}"></span>&nbsp;</span><br>
-    2. 페이지 비었는지 체크 : <span th:text="${paging.isEmpty()}"></span><br>
-    3. 현재 페이지 번호 : <span th:text="${paging.number}"></span><br>
-    4. 전체 페이지 수 : <span th:text="${paging.totalPages}"></span><br>
-    5. 전체 레코드 수 : <span th:text="${paging.totalElements}"></span><br>
-    6. 페이지당 보여줄 레코드 수 : <span th:text="${paging.size}"></span><br>
-    7. 이전 페이지 있냐 ? : <span th:text="${paging.hasPrevious}"></span><br>
-    8. 다음 페이지 있냐 ? : <span th:text="${paging.hasNext}"></span><br>
+<!--    1. 페이지 번호 반복 : <span th:each="num: ${#numbers.sequence(1, 10)}"><span th:text="${num}"></span>&nbsp;</span><br>-->
+<!--    2. 페이지 비었는지 체크 : <span th:text="${paging.isEmpty()}"></span><br>-->
+<!--    3. 현재 페이지 번호 : <span th:text="${paging.number}"></span><br>-->
+<!--    4. 전체 페이지 수 : <span th:text="${paging.totalPages}"></span><br>-->
+<!--    5. 전체 레코드 수 : <span th:text="${paging.totalElements}"></span><br>-->
+<!--    6. 페이지당 보여줄 레코드 수 : <span th:text="${paging.size}"></span><br>-->
+<!--    7. 이전 페이지 있냐 ? : <span th:text="${paging.hasPrevious}"></span><br>-->
+<!--    8. 다음 페이지 있냐 ? : <span th:text="${paging.hasNext}"></span><br>-->
+    <div th:if="${!paging.isEmpty()}">
+        <ul th:if="${paging.totalPages > 0}">
+            <li th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                <a class="move" th:href="@{|?page=${paging.number-1}|}">Prev(<span th:text="${paging.hasPrevious}"></span>)</a>
+            </li>
 
+            <li
+                th:each="page : ${#numbers.sequence(0, paging.totalPages-1) }"
+                th:if="${page >= paging.number-3 and page <= paging.number+3}"
+                th:classappend="${page == paging.number} ? 'active'"
+            >
+                <a class="click" th:href="@{|?page=${page}|}" th:text="${page}"></a>
+            </li>
+
+            <li th:classappend="${!paging.hasNext} ? 'disabled'">
+                <a class="move" th:href="@{|?page=${paging.number+1}|}">Next(<span th:text="${paging.hasNext}"></span>)</a>
+            </li>
+        </ul>
+    </div>
     <hr>
     <button onclick="location.href='/member/memberJoin';">회원 가입</button>
 </body>

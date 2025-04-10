@@ -93,7 +93,7 @@ public class MemberService {
     public Page<Member> memberList(int page) {
 
         // 페이지어블 변수 및 페이지 설정
-        Pageable pageable = PageRequest.of(page, 5);
+        Pageable pageable = PageRequest.of(page, 2);
 
         // Return
         return this.memberRepository.findAll(pageable);
