@@ -91,6 +91,12 @@ public class MemberService {
     }
 
     public Page<Member> memberList(int page) {
+        //페이지 번호가 없으면
+        if(page==0) {
+            page = 0;
+        } else {
+            page -= 1;
+        }
 
         // 페이지어블 변수 및 페이지 설정
         Pageable pageable = PageRequest.of(page, 2);

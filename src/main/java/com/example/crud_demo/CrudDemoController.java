@@ -200,7 +200,7 @@ public class CrudDemoController {
         // MemberService > delete() 메서드 호출 => DB 에서 삭제 처리
         String res = this.memberService.delete(idx, userPw);
         // Return
-        return "redirect:"+res+"/"+idx;
+        return "redirect:"+res+ "/" +idx;
     }
 
     // DB::Fail and Success
@@ -226,5 +226,11 @@ public class CrudDemoController {
 
         // Return
         return "member/memberList";
+    }
+
+    // 부트스트랩 페이지 요청
+    @GetMapping("/member/memberList_bs")
+    public String memberList_bs() {
+        return "member/memberList_bs";
     }
 }
