@@ -46,33 +46,42 @@
     </div>
 </nav>
     <div class="container">
-        <table class="table table-bordered mt-5">
+        <table class="table table-bordered table-striped table-hover text-center mt-5">
+            <caption>List of users</caption>
             <thead>
-            <tr>
+            <tr class="table-secondary">
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">ID</th>
+                <th scope="col">Password</th>
+                <th scope="col">Email</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr class="align-middle">
                 <th scope="row">1</th>
                 <td>Mark</td>
                 <td>Otto</td>
-                <td>@mdo</td>
+                <td>@gmail.com</td>
+                <td><button type="button" class="btn btn-primary btn-sm">수정</button></td>
+                <td><button type="button" class="btn btn-secondary btn-sm">삭제</button></td>
             </tr>
-            <tr>
+            <tr class="align-middle">
                 <th scope="row">2</th>
                 <td>Jacob</td>
                 <td>Thornton</td>
                 <td>@fat</td>
+                <td><button type="button" class="btn btn-primary btn-sm">수정</button></td>
+                <td><button type="button" class="btn btn-secondary btn-sm">삭제</button></td>
             </tr>
-            <tr>
+            <tr class="align-middle">
                 <th scope="row">3</th>
                 <td>Larry the Bird</td>
                 <td>Fhornton</td>
                 <td>@Twitter</td>
+                <td><button type="button" class="btn btn-primary btn-sm">수정</button></td>
+                <td><button type="button" class="btn btn-secondary btn-sm">삭제</button></td>
             </tr>
             </tbody>
         </table>
