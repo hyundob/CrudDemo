@@ -1,110 +1,111 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
-    <meta charset="utf-8">
-    <title>Member List</title>
-    <style>
-        a {
-            text-decoration: none;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        li {
-            display: inline-block;
-            border: 1px solid #ccc;
-            margin: 0 5px;
-        }
-        .move {
-            display: inline-block;
-            padding: 5px 12px;
-        }
-        .click {
-            display: inline-block;
-            padding: 5px 12px;
-        }
-        li:hover {
-            background-color: yellow;
-            cursor: pointer;
-        }
-        li:first-child, li:last-child {
-            background-color: #f0f0f0;
-        }
-        .disabled {
-            pointer-events: none;
-            opacity: .3;
-        }
-        .active {
-            background-color: pink;
-            color: white;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Demo - v5.3</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h2>MemberList</h2>
-    <hr>
-        <table style="width: 600px; border: 1px solid black; border-collapse: collapse;">
-            <tr>
-                <td>번호</td>
-                <td>아이디</td>
-                <td>비밀번호</td>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Bootstrap" height="40">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <!-- Table -->
+    <div class="container">
+        <div class="mt-5 mb-2">
+            CurrentPage : <span class="text-danger fw-bold" th:text="${paging.number+1}"></span> /
+            TotalPages : <span class="text-danger fw-bold" th:text="${paging.totalPages}"></span> /
+            TotalRecords : <span class="text-danger fw-bold" th:text="${paging.totalElements}"></span>
+        </div>
+        <table class="table table-bordered table-striped table-hover text-center">
+            <caption>List of users</caption>
+            <thead>
+            <tr class="table-secondary">
+                <th scope="col">#</th>
+                <th scope="col">ID</th>
+                <th scope="col">Password</th>
+                <th scope="col">Email</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
             </tr>
-            <tr th:each="member : ${paging}">
-                <td th:text="${member.idx}"></td>
+            </thead>
+            <tbody>
+            <tr class="align-middle" th:each="member : ${paging}">
+                <th scope="row" th:text="${member.idx}"></th>
                 <td th:text="${member.id}"></td>
                 <td th:text="${member.pw}"></td>
+                <td>@gmail.com</td>
+                <td><button type="button" class="btn btn-primary btn-sm">수정</button></td>
+                <td><button type="button" class="btn btn-secondary btn-sm">삭제</button></td>
             </tr>
+            </tbody>
         </table>
-    <hr>
-    <!-- 페이징 처리 시작 -->
-    <!--
-        - 페이징 구현 시 어떤 클래스 사용
-        페이징 구현 시 특정 라이브러리 사용은 필요 X => 이미 JPA 관련 라이브러리에 페이징 관련된 클래스가 포함
-        org.springframework.data.domain.Page
-        org.springframework.data.domain.Pageable
-        org.springframework.data.domain.PageRequest
+    </div>
 
-        - 페이징 관련 필수 속성들(암기)
-            #numbers.sequence(start, end) : 시작 ~ 끝 번호까지 정해진 범위 만큼 반복하여 숫자를 생성 => 타임리프 문법 => 페이징 구현 시 많이 사용
-            paging.isEmpty() : 페이지가 비었는지 체크 => 비었나요? => 레코드가 없으면 true, 있으면 false
-            paging.number : 현재 페이지 번호
-            paging.totalPages : 전체 페이지 수
-            paging.totalElements : 전체 레코드 수(글 개수)
-            paging.size : 페이지당 보여줄 레코드 수
-            paging.hasPrevious : 이전 페이지가 있는지 체크
-            paging.hasNext : 다음 페이지가 있는지 체크
-    -->
-    <!-- 페이징 처리 끝 -->
-<!--    1. 페이지 번호 반복 : <span th:each="num: ${#numbers.sequence(1, 10)}"><span th:text="${num}"></span>&nbsp;</span><br>-->
-<!--    2. 페이지 비었는지 체크 : <span th:text="${paging.isEmpty()}"></span><br>-->
-<!--    3. 현재 페이지 번호 : <span th:text="${paging.number}"></span><br>-->
-<!--    4. 전체 페이지 수 : <span th:text="${paging.totalPages}"></span><br>-->
-<!--    5. 전체 레코드 수 : <span th:text="${paging.totalElements}"></span><br>-->
-<!--    6. 페이지당 보여줄 레코드 수 : <span th:text="${paging.size}"></span><br>-->
-<!--    7. 이전 페이지 있냐 ? : <span th:text="${paging.hasPrevious}"></span><br>-->
-<!--    8. 다음 페이지 있냐 ? : <span th:text="${paging.hasNext}"></span><br>-->
-    <div th:if="${!paging.isEmpty()}">
-        <ul th:if="${paging.totalPages > 0}">
-            <li th:classappend="${!paging.hasPrevious} ? 'disabled'">
-                <a class="move" th:href="@{|?page=${(paging.number+1)-1}|}">Prev(<span th:text="${paging.hasPrevious}"></span>)</a>
+    <!-- Pagination -->
+    <div class="container">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                <a class="page-link" th:href="@{|?page=${(paging.number+1)-1}|}" aria-label="Previous">&laquo;</a>
+                <span th:text="${paging.hasPrevious}"></span>
             </li>
-
             <li
-                th:each="page : ${#numbers.sequence(1, paging.totalPages) }"
-                th:if="${page >= (paging.number+1)-3 and page <= (paging.number+1)+3}"
+                class="page-item"
+                th:each="page : ${#numbers.sequence(1, paging.totalPages)}"
+                th:if="${page>=(paging.number+1)-3 and page<=(paging.number+1)+3}"
                 th:classappend="${page == paging.number+1} ? 'active'"
             >
-                <a class="click" th:href="@{|?page=${page}|}" th:text="${page}"></a>
+                <a class="page-link" th:href="@{|?page=${page}|}" th:text="${page}"></a>
             </li>
-
-            <li th:classappend="${!paging.hasNext} ? 'disabled'">
-                <a class="move" th:href="@{|?page=${(paging.number+1)+1}|}">Next(<span th:text="${paging.hasNext}"></span>)</a>
+            <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                <a class="page-link" th:href="@{|?page=${(paging.number+1)+1}|}" aria-label="Next">&raquo;</a>
             </li>
         </ul>
     </div>
-    <hr>
-    <button onclick="location.href='/member/memberJoin';">회원 가입</button>
+
+    <!-- Button -->
+    <div class="container">
+        <hr>
+        <button class="btn btn-success btn-sm" onclick="location.href='/member/memberJoin'">회원 가입</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

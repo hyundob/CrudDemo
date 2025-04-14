@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
@@ -45,8 +46,10 @@
         </div>
     </div>
 </nav>
+
+    <!-- Table -->
     <div class="container">
-        <div class="mt-5">
+        <div class="mt-5 mb-2">
             CurrentPage : <span class="text-danger fw-bold">1</span> /
             TotalPages : <span class="text-danger fw-bold">10</span> /
             TotalRecords : <span class="text-danger fw-bold">100</span>
@@ -64,27 +67,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="align-middle">
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
+            <tr class="align-middle" th:each="member : ${paging}">
+                <th scope="row" th:text="${member.idx}"></th>
+                <td th:text="${member.id}"></td>
+                <td th:text="${member.pw}"></td>
                 <td>@gmail.com</td>
-                <td><button type="button" class="btn btn-primary btn-sm">수정</button></td>
-                <td><button type="button" class="btn btn-secondary btn-sm">삭제</button></td>
-            </tr>
-            <tr class="align-middle">
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td><button type="button" class="btn btn-primary btn-sm">수정</button></td>
-                <td><button type="button" class="btn btn-secondary btn-sm">삭제</button></td>
-            </tr>
-            <tr class="align-middle">
-                <th scope="row">3</th>
-                <td>Larry the Bird</td>
-                <td>Fhornton</td>
-                <td>@Twitter</td>
                 <td><button type="button" class="btn btn-primary btn-sm">수정</button></td>
                 <td><button type="button" class="btn btn-secondary btn-sm">삭제</button></td>
             </tr>
@@ -92,16 +79,26 @@
         </table>
     </div>
 
-    <nav>
-        <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+    <!-- Pagination -->
+    <div class="container">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link" href="#" aria-label="Previous">&laquo;</a></li>
             <li class="page-item"><a class="page-link" href="#">1</a></li>
             <li class="page-item"><a class="page-link" href="#">2</a></li>
             <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            <li class="page-item active"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">5</a></li>
+            <li class="page-item"><a class="page-link" href="#">6</a></li>
+            <li class="page-item"><a class="page-link" href="#">7</a></li>
+            <li class="page-item"><a class="page-link" href="#" aria-label="Next">&raquo;</a></li>
         </ul>
-    </nav>
+    </div>
 
+    <!-- Button -->
+    <div class="container">
+        <hr>
+        <button class="btn btn-success btn-sm">회원 가입</button>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js"></script>
 </body>

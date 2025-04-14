@@ -43,13 +43,14 @@ public class CrudDemoController {
     }
 
     @PostMapping("/member/memberJoinOk")
-    @ResponseBody
+    // @ResponseBody
     public String insert(MemberJoinDTO memberJoinDTO) {
-        //MemberService > Insert() 메서드 호출
-        Integer idx = memberService.insert(memberJoinDTO);
-
-        //Return
-        return String.format("Member idx => %s", idx);
+        // MemberService > Insert() 메서드 호출
+        // Integer idx = memberService.insert(memberJoinDTO);
+        memberService.insert(memberJoinDTO);
+        // Return
+        // return String.format("Member idx => %s", idx);
+        return "redirect:/member/memberList";
     }
 
     // @PathVariable 애너테이션
