@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -98,8 +100,11 @@ public class MemberService {
             page -= 1;
         }
 
+        // 정렬 기준 적용
+        Sort sort = Sort.by(Order.desc("idx"));
+
         // 페이지어블 변수 및 페이지 설정
-        Pageable pageable = PageRequest.of(page, 2);
+        Pageable pageable = PageRequest.of(page, 3, sort);
 
         // Return
         return this.memberRepository.findAll(pageable);

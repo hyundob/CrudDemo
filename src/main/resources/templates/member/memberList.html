@@ -80,7 +80,7 @@
     </div>
 
     <!-- Pagination -->
-    <div class="container">
+    <div class="container" th:if="${!paging.isEmpty()}">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
                 <a class="page-link" th:href="@{|?page=${(paging.number+1)-1}|}" aria-label="Previous">&laquo;</a>
