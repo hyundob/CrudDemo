@@ -197,7 +197,7 @@ public class CrudDemoController {
 
     // DB:Delete
     @PostMapping("/member/delete/{idx}")
-    public String delete(@PathVariable("idx") int idx, @RequestParam("pw") int userPw) {
+    public String delete(@PathVariable("idx") int idx, @RequestParam("pw") String userPw) {
         // MemberService > delete() 메서드 호출 => DB 에서 삭제 처리
         String res = this.memberService.delete(idx, userPw);
         // Return

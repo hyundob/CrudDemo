@@ -4,7 +4,7 @@ public class MemberJoinDTO {
 
     // Field
     private String id;
-    private Integer pw;
+    private String pw;
 
     // Setter and Getter
 
@@ -17,11 +17,11 @@ public class MemberJoinDTO {
         this.id = id;
     }
 
-    public Integer getPw() {
+    public String getPw() {
         return pw;
     }
 
-    public void setPw(Integer pw) {
+    public void setPw(String pw) {
         this.pw = pw;
     }
 }

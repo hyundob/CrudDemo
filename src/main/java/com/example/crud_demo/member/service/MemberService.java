@@ -27,7 +27,7 @@ public class MemberService {
     }
 
     //DB:Insert
-    public Integer insert(MemberJoinDTO memberJoinDTO) {
+    public void insert(MemberJoinDTO memberJoinDTO) {
         //Member 타입의 객체 생성
         Member member = new Member();
 
@@ -39,7 +39,6 @@ public class MemberService {
         this.memberRepository.save(member);
 
         //Return
-        return member.getIdx();
 
     }
 
@@ -72,13 +71,13 @@ public class MemberService {
     }
 
     // DB::Delete
-    public String delete(int idx, int userPw) throws NoSuchElementException {
+    public String delete(int idx, String userPw) throws NoSuchElementException {
 
         // DB::Find
         Member member = this.memberRepository.findById(idx).orElseThrow();
 
         //사용자가 입력한 비번과 DB에 입력된 비번과 비교해서 일치하면 삭제
-        if(userPw != member.getPw()) {
+        if(!userPw.equals(member.getPw())) {
             // System.out.println("비밀번호가 틀립니다.");
 
             return "/member/delete-fail";
@@ -94,9 +93,7 @@ public class MemberService {
 
     public Page<Member> memberList(int page) {
         //페이지 번호가 없으면
-        if(page==0) {
-            page = 0;
-        } else {
+        if (page != 0) {
             page -= 1;
         }
 

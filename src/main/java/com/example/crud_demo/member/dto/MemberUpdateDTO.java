@@ -6,7 +6,7 @@ public class MemberUpdateDTO {
     // Field
     private Integer idx;
     private String id;
-    private Integer pw;
+    private String pw;
 
     // Change Method
     public Member change(Member member) {
@@ -34,11 +34,11 @@ public class MemberUpdateDTO {
         this.id = id;
     }
 
-    public Integer getPw() {
+    public String getPw() {
         return pw;
     }
 
-    public void setPw(Integer pw) {
+    public void setPw(String pw) {
         this.pw = pw;
     }
 }
