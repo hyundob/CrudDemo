@@ -5,6 +5,7 @@ public class MemberJoinDTO {
     // Field
     private String id;
     private String pw;
+    private String email;
 
     // Setter and Getter
 
@@ -24,4 +25,8 @@ public class MemberJoinDTO {
     public void setPw(String pw) {
         this.pw = pw;
     }
+
+    public String getEmail() { return email; }
+
+    public void setEmail(String email) { this.email = email; }
 }

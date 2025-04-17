@@ -23,7 +23,6 @@ public class Member {
     @Column(length = 16)
     private String id;
 
-    @Column(length = 16)
     private String pw;
 
     @Column(unique = true)
