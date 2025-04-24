@@ -107,4 +107,10 @@ public class MemberService {
         // Return
         return this.memberRepository.findAll(pageable);
     }
+
+    // DB::Email Cehck
+    public boolean checkEmailDuplication(String email) {
+        boolean emailCheckValue = this.memberRepository.existByEmail(email);
+        return emailCheckValue;
+    }
 }

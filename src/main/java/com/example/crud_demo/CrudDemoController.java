@@ -44,7 +44,15 @@ public class CrudDemoController {
 
     @PostMapping("/member/memberJoinOk")
     // @ResponseBody
-    public String insert(MemberJoinDTO memberJoinDTO) {
+    public String insert(MemberJoinDTO memberJoinDTO, Model model) {
+
+        // 이메일 중복 체크
+        boolean emailCheckRes = memberService.checkEmailDuplication(memberJoinDTO.getEmail());
+        // System.out.println(emailCheckRes);
+        if(emailCheckRes) {
+            model.addAttribute("msg", "Email 중복 에러 : 입력하신 이메일 정보는 이미 가입되어 있습니다.");
+            return "member/error";
+        }
         // MemberService > Insert() 메서드 호출
         // Integer idx = memberService.insert(memberJoinDTO);
         memberService.insert(memberJoinDTO);

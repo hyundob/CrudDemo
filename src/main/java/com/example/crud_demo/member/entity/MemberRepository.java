@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Integer> {
 
+    // Email Check
+    boolean existByEmail(String email);
+
     // List
     public Page<Member> findAll(Pageable pageable);
     // Page => 페이징 처리를 위한 기본 클래스
