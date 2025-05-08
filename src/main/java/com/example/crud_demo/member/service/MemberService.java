@@ -110,7 +110,7 @@ public class MemberService {
 
     // DB::Email Cehck
     public boolean checkEmailDuplication(String email) {
-        boolean emailCheckValue = this.memberRepository.existByEmail(email);
+        boolean emailCheckValue = this.memberRepository.existsByEmail(email);
         return emailCheckValue;
     }
 }

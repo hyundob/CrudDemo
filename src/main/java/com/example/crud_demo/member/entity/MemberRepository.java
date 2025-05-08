@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MemberRepository extends JpaRepository<Member, Integer> {
 
     // Email Check
-    boolean existByEmail(String email);
+    boolean existsByEmail(String email);
 
     // List
     public Page<Member> findAll(Pageable pageable);
